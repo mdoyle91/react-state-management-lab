@@ -78,8 +78,26 @@ const App = () => {
     },
   ]);
 
+  const handleAddFighter = (zombieFighter) => {
+    //Used ChatGPT to help me with the logic here.
+    if (money >= zombieFighter.price) {
+      setTeam((prevTeam) => [...prevTeam, zombieFighter]);
+      setMoney((prevMoney) => prevMoney - zombieFighter.price);
+      console.log(`${zombieFighter.name} addded to team!`);
+    } else {
+      console.log(`Not enough money to add ${zombieFighter.name}`);
+    }
+  };
+
   return (
     <>
+      <h1>Money: ${money}</h1>
+      <h2>Team:</h2>
+      <ul>
+        {team.map((fighter, idx) => (
+          <li key={idx}>{fighter.name}</li>
+        ))}
+      </ul>
       <div>
         {zombieFighters.map((zombieFighter, idx) => (
           <ul key={idx}>
@@ -88,11 +106,10 @@ const App = () => {
             <li> Strength: {zombieFighter.strength} </li>
             <li> Agility: {zombieFighter.agility} </li>
             <img src={zombieFighter.img} />
-            <button>Add</button>
+            <button onClick={() => handleAddFighter(zombieFighter)}>Add</button>
           </ul>
         ))}
       </div>
-      <h1>Money: {money}</h1>
     </>
   );
 };
