@@ -90,14 +90,27 @@ const App = () => {
   };
 
   return (
+    //Used ChatGPT to help me with the logic inside of the add button.
+    //Used ChatGPT to help with syntax of my ternary statement, but I knew the logic and was having trouble getting syntax that would render.
     <>
       <h1>Money: ${money}</h1>
-      <h2>Team:</h2>
-      <ul>
-        {team.map((fighter, idx) => (
-          <li key={idx}>{fighter.name}</li>
-        ))}
-      </ul>
+      <h2>Team: </h2>
+      {team.length === 0 ? (
+        <p>Pick some team members!</p>
+      ) : (
+        <ul>
+          {team.map((fighter, idx) => (
+            <ul key={idx}>
+              <li> Name: {fighter.name} </li>
+              <li> Price: ${fighter.price} </li>
+              <li> Strength: {fighter.strength} </li>
+              <li> Agility: {fighter.agility} </li>
+              <img src={fighter.img} />
+            </ul>
+          ))}
+        </ul>
+      )}
+
       <div>
         {zombieFighters.map((zombieFighter, idx) => (
           <ul key={idx}>
