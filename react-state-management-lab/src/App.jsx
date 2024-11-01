@@ -78,13 +78,15 @@ const App = () => {
     },
   ]);
   const [totalStrength, setTotalStrength] = useState(0);
+  const [totalAgility, setTotalAgility] = useState(0);
 
   const handleAddFighter = (zombieFighter) => {
     //Used ChatGPT to help me with the logic here.
     if (money >= zombieFighter.price) {
       setTeam((prevTeam) => [...prevTeam, zombieFighter]);
       setMoney((prevMoney) => prevMoney - zombieFighter.price);
-      setTotalStrength((prevStrength) => prevStrength + zombieFighter.strength);
+      setTotalStrength((prevStrength) => prevStrength + zombieFighter.strength); //Will probably want to create a parallel function that removes strenghth as fighters are removed once remove functionality is added later.
+      setTotalAgility((prevAgility) => prevAgility + zombieFighter.agility);
       console.log(`${zombieFighter.name} addded to team!`);
     } else {
       console.log(`Not enough money to add ${zombieFighter.name}`);
@@ -97,6 +99,7 @@ const App = () => {
     <>
       <h1>Money: ${money}</h1>
       <h1>Team Strength: {totalStrength}</h1>
+      <h1>Team Agility: {totalAgility}</h1>
       <h2>Team: </h2>
       {team.length === 0 ? (
         <p>Pick some team members!</p>
