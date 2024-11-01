@@ -82,7 +82,7 @@ const App = () => {
 
   const handleAddFighter = (zombieFighter) => {
     //Used ChatGPT to help me with the logic here.
-    if (money >= zombieFighter.price) {
+    if (money >= zombieFighter.price && !team.includes(zombieFighter)) {
       setTeam((prevTeam) => [...prevTeam, zombieFighter]);
       setMoney((prevMoney) => prevMoney - zombieFighter.price);
       setTotalStrength((prevStrength) => prevStrength + zombieFighter.strength); //Will probably want to create a parallel function that removes strenghth as fighters are removed once remove functionality is added later.
@@ -93,9 +93,19 @@ const App = () => {
     }
   };
 
+  // Used ChatGPT to help with the logic for removing the fighter.
+  const handleRemoveFighter = (zombieFighter) => {
+    setTeam((prevTeam) =>
+      prevTeam.filter((fighter) => fighter !== zombieFighter)
+    );
+    setMoney((prevMoney) => prevMoney + zombieFighter.price);
+    setTotalStrength((prevStrength) => prevStrength - zombieFighter.strength);
+    setTotalAgility((prevAgility) => prevAgility - zombieFighter.agility);
+  };
   return (
     //Used ChatGPT to help me with the logic inside of the add button.
     //Used ChatGPT to help with syntax of my ternary statement, but I knew the logic and was having trouble getting syntax that would render.
+    //Used ChatGPT to help create the logic for conditionally having the add/remove button & where it's stored.
     <>
       <h1>Money: ${money}</h1>
       <h1>Team Strength: {totalStrength}</h1>
@@ -118,16 +128,27 @@ const App = () => {
       )}
 
       <div>
-        {zombieFighters.map((zombieFighter, idx) => (
-          <ul key={idx}>
-            <li> Name: {zombieFighter.name} </li>
-            <li> Price: ${zombieFighter.price} </li>
-            <li> Strength: {zombieFighter.strength} </li>
-            <li> Agility: {zombieFighter.agility} </li>
-            <img src={zombieFighter.img} />
-            <button onClick={() => handleAddFighter(zombieFighter)}>Add</button>
-          </ul>
-        ))}
+        {zombieFighters.map((zombieFighter, idx) => {
+          const isAdded = team.includes(zombieFighter);
+          return (
+            <ul key={idx}>
+              <li> Name: {zombieFighter.name} </li>
+              <li> Price: ${zombieFighter.price} </li>
+              <li> Strength: {zombieFighter.strength} </li>
+              <li> Agility: {zombieFighter.agility} </li>
+              <img src={zombieFighter.img} />
+              {isAdded ? (
+                <button onClick={() => handleRemoveFighter(zombieFighter)}>
+                  Remove
+                </button>
+              ) : (
+                <button onClick={() => handleAddFighter(zombieFighter)}>
+                  Add
+                </button>
+              )}
+            </ul>
+          );
+        })}
       </div>
     </>
   );
