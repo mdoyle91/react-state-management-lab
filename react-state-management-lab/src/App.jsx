@@ -77,12 +77,14 @@ const App = () => {
       img: "https://via.placeholder.com/150/602b9e",
     },
   ]);
+  const [totalStrength, setTotalStrength] = useState(0);
 
   const handleAddFighter = (zombieFighter) => {
     //Used ChatGPT to help me with the logic here.
     if (money >= zombieFighter.price) {
       setTeam((prevTeam) => [...prevTeam, zombieFighter]);
       setMoney((prevMoney) => prevMoney - zombieFighter.price);
+      setTotalStrength((prevStrength) => prevStrength + zombieFighter.strength);
       console.log(`${zombieFighter.name} addded to team!`);
     } else {
       console.log(`Not enough money to add ${zombieFighter.name}`);
@@ -94,6 +96,7 @@ const App = () => {
     //Used ChatGPT to help with syntax of my ternary statement, but I knew the logic and was having trouble getting syntax that would render.
     <>
       <h1>Money: ${money}</h1>
+      <h1>Team Strength: {totalStrength}</h1>
       <h2>Team: </h2>
       {team.length === 0 ? (
         <p>Pick some team members!</p>
